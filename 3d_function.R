@@ -52,6 +52,4 @@ coord <- coord %>%
 
 # plot
 rgl::plot3d(coord$x, coord$y, coord$z, type = "s", radius = 0.5)
-# Add plane
-rgl::plot3d(coord$x, coord$y, 1, add = T,
-            type = "s", radius = 0.5, col = "blue")
+planes3d(a = 0, b = 0, c = 1, col = "blue")
