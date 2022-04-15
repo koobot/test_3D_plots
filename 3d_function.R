@@ -49,10 +49,10 @@ f_xy <- function(x, y) {
 coord <- data.frame(expand.grid(u, v))
 coord <- coord %>%
   rename(x = Var1, y = Var2) %>%
-  mutate(z = 8*x^2 - 2*y)
+  mutate(z = f_xy(x, y))
 
 # plot
-car::scatter3d(coord$x, coord$y, coord$z, surface = F)
+car::scatter3d(coord$x, coord$y, coord$z, surface = F, fov=5)
 
 # Test different package ---------------------------
 # https://stackoverflow.com/questions/13550501/adding-a-plane-to-a-scatterplot3d
