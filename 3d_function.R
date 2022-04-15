@@ -4,29 +4,50 @@
 # Trying to understand lagrange multipliers
 # https://tutorial.math.lamar.edu/classes/calciii/lagrangemultipliers.aspx
 #----------------------------------------------------------------------
+# Install manually due to issue with loading rgl ----------------------
+tryCatch(
+  {
+    find.package("shiny")
+  }, error = function(e){
+    install.packages("shiny", type="binary")
+  }
+)
 
-library(plotly)
+tryCatch(
+  {
+    find.package("manipulateWidget")
+  }, error = function(e){
+    install.packages("manipulateWidget")
+  }
+)
+
+# Load libraries ----------------------------
+library(rgl)
+library(car)
 
 # input
-u <- c(-100:100)
-v <- c(-100:100)
+u <- c(-50:50)
+v <- c(-50:50)
 
 # f(x,y) = 8x^2 - 2y
 f_xy <- function(x, y) {
   k <- 8*x^2 - 2*y
+  #k <- x^2 + y^2 # known x^2 + y^2
   return(k)
 }
 
-# matrix of points
-k <- matrix(nrow = length(u), ncol = length(v))
+# dataframe of coordinates
+coord <- data.frame(x = c(), y = c(), z = c())
 
 # f(x, y) = k
-for (i in 1:length(u)) {
-  for (j in 1:length(v)) {
-    # Add to matrix
-    k[i, j] <- f_xy(i, j)
+# Slow for 201x201 - should improve this to make faster
+for (i in u) {
+  for (j in v) {
+    new_row <- data.frame(x = i, y = j, z = f_xy(i, j))
+    # Add to dataframe
+    coord <- rbind(coord, new_row)
   }
 }
 
 # plot
-plot_ly(z = k, type = "surface")
+car::scatter3d(coord$x, coord$y, coord$z, surface = F)
