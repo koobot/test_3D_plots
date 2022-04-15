@@ -48,20 +48,15 @@ p <- rgl::persp3d(x, y, z, col = "blue", alpha = 0.7)
 planes3d(a = 0, b = 0, c = 1, col = "green", alpha = 0.5)
 clipplanes3d(a = 0, b = 0, c = 1) # Optional clip
 
-# Plot x^2 + y^2
+# Plot x^2 + y^2 = 1
 # Need to use polar coordinates: https://stackoverflow.com/a/51908543
 r <- 1
-phi <- seq(0, 2*pi, by = 10)
+phi <- seq(0, 2*pi, len = 50)
 x2 <- r*cos(phi)
 y2 <- r*sin(phi)
-plot(x2, y2)
-
-z2 <- outer(x2, y2, function(x,y) x^2 + y^2) # Doesn't include negatives!!
 
 p
-rgl::persp3d(x = x2, y = z2, z = z2, col = "yellow", alpha = 0.5, add = T)
-clipplanes3d(a = 0, b = 0, c = 1) # Optional clip
-
+lines3d(x2, y2, z = r, col = "yellow", add = T)
 
 # OLD CODE FOR SCATTER PLOT ----------------------
 
