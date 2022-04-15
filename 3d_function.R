@@ -55,16 +55,3 @@ rgl::plot3d(coord$x, coord$y, coord$z, type = "s", radius = 0.5)
 # Add plane
 rgl::plot3d(coord$x, coord$y, 1, add = T,
             type = "s", radius = 0.5, col = "blue")
-
-# Test different package ---------------------------
-# https://stackoverflow.com/questions/13550501/adding-a-plane-to-a-scatterplot3d
-library(scatterplot3d)
-# NOT INTERACTIVE!!!
-# But allows for gradient of coordinate
-
-# f(x,y) = 8x^2 - 2y
-scatterplot3d::scatterplot3d(coord$x, coord$y, coord$z, highlight.3d = T)
-
-# Add plane along z-axis
-scatterplot3d::scatterplot3d(c(coord$x, coord$x), c(coord$y, coord$y), c(coord$z, rep(1, nrow(coord))),
-                             highlight.3d = T, pch = 20)
