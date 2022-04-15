@@ -50,6 +50,18 @@ coord <- coord %>%
   rename(x = Var1, y = Var2) %>%
   mutate(z = f_xy(x, y))
 
-# plot
-rgl::plot3d(coord$x, coord$y, coord$z, type = "s", radius = 0.5)
-planes3d(a = 0, b = 0, c = 1, col = "blue")
+# plot scatter plot ----------------------
+p <- rgl::plot3d(coord$x, coord$y, coord$z, type = "s", radius = 0.5, col = "grey")
+planes3d(a = 0, b = 0, c = 1, col = "blue", alpha = 0.5)
+
+# Run with this option to clip the plane!!! Very cool!!!
+p
+clipplanes3d(a = 0, b = 0, c = 1)
+
+# Plot function as plane ---------------------
+# Using this eliminates the dataframe!!!!!!
+k <- outer(u, v, f_xy) # Matrix of coordinates
+
+rgl::persp3d(x = u, y = v, z = k, col = "grey")
+planes3d(a = 0, b = 0, c = 1, col = "blue", alpha = 0.5)
+clipplanes3d(a = 0, b = 0, c = 1) # Optional clip
