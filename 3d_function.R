@@ -27,7 +27,6 @@ tryCatch(
 
 # Load libraries ----------------------------
 library(rgl)
-library(car)
 library(tidyverse)
 
 # input
@@ -52,7 +51,10 @@ coord <- coord %>%
   mutate(z = f_xy(x, y))
 
 # plot
-car::scatter3d(coord$x, coord$y, coord$z, surface = F, fov=5)
+rgl::plot3d(coord$x, coord$y, coord$z, type = "s", radius = 0.5)
+# Add plane
+rgl::plot3d(coord$x, coord$y, 1, add = T,
+            type = "s", radius = 0.5, col = "blue")
 
 # Test different package ---------------------------
 # https://stackoverflow.com/questions/13550501/adding-a-plane-to-a-scatterplot3d
