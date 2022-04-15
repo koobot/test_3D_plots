@@ -28,6 +28,7 @@ tryCatch(
 # Load libraries ----------------------------
 library(rgl)
 library(car)
+library(tidyverse)
 
 # input
 u <- seq(-2, 2, by = 0.1)
@@ -45,21 +46,13 @@ f_xy <- function(x, y) {
 }
 
 # dataframe of coordinates
-coord <- data.frame(x = c(), y = c(), z = c())
-
-# f(x, y) = k
-# Slow for 201x201 - should improve this to make faster
-for (i in u) {
-  for (j in v) {
-    new_row <- data.frame(x = i, y = j, z = f_xy(i, j))
-    # Add to dataframe
-    coord <- rbind(coord, new_row)
-  }
-}
+coord <- data.frame(expand.grid(u, v))
+coord <- coord %>%
+  rename(x = Var1, y = Var2) %>%
+  mutate(z = 8*x^2 - 2*y)
 
 # plot
 car::scatter3d(coord$x, coord$y, coord$z, surface = F)
-
 
 # Test different package ---------------------------
 # https://stackoverflow.com/questions/13550501/adding-a-plane-to-a-scatterplot3d
