@@ -1,3 +1,7 @@
+# TODO:
+#   Make adding rows to dataframe more efficient
+#   Make colour gradient so easier to see change
+
 # Adapted from https://r-graph-gallery.com/3d-surface-plot.html
 
 # Plot 3D function
@@ -26,8 +30,12 @@ library(rgl)
 library(car)
 
 # input
-u <- c(-50:50)
-v <- c(-50:50)
+u <- seq(-2, 2, by = 0.1)
+v <- seq(-5, 5, by = 0.1)
+
+# get idea of big inputs
+rows <- length(u)*length(v)
+if (rows > 10000) {message("Lots of rows (rows=", rows, ")")}
 
 # f(x,y) = 8x^2 - 2y
 f_xy <- function(x, y) {
@@ -51,3 +59,17 @@ for (i in u) {
 
 # plot
 car::scatter3d(coord$x, coord$y, coord$z, surface = F)
+
+
+# Test different package ---------------------------
+# https://stackoverflow.com/questions/13550501/adding-a-plane-to-a-scatterplot3d
+library(scatterplot3d)
+# NOT INTERACTIVE!!!
+# But allows for gradient of coordinate
+
+# f(x,y) = 8x^2 - 2y
+scatterplot3d::scatterplot3d(coord$x, coord$y, coord$z, highlight.3d = T)
+
+# Add plane along z-axis
+scatterplot3d::scatterplot3d(c(coord$x, coord$x), c(coord$y, coord$y), c(coord$z, rep(1, nrow(coord))),
+                             highlight.3d = T, pch = 20)
